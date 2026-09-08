@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GamerGeekZonia — O encontro geek da Amazônia</title>
+<meta name="description" content="GamerGeekZonia: três dias de games, cultura pop, cosplay e música em Manaus.">
+<link rel="icon" type="image/png" href="images/logo-mini.png">
+
+<!--
+  ============================================================
+  GUIA RÁPIDO DE EDIÇÃO — leia antes de publicar
+  ============================================================
+  Tudo que precisa ser trocado está marcado com [COLCHETES] no
+  texto visível, ou com um comentário "EDITAR:" logo acima do
+  trecho de código. Os principais pontos são:
+
+  1) Data e local do evento          -> buscar "[DATA DO EVENTO]"
+  2) As 5 fotos do carrossel         -> buscar "EDITAR: foto do carrossel"
+  3) Links do Google Drive           -> buscar "[LINK DO DRIVE]"
+  4) Nomes dos artistas/shows        -> buscar "[Nome do Artista"
+  5) Números da última edição        -> buscar "[NÚMERO]"
+  6) Nome, foto e frase do criador   -> buscar "[Nome do idealizador]"
+  7) Nomes dos dois autores no rodapé-> buscar "[Autor 1]" e "[Autor 2]"
+  8) URL do Google Apps Script (fórum)-> buscar "[URL DO GOOGLE APPS SCRIPT]"
+
+  ESTRUTURA DE PASTAS (mantenha tudo junto ao publicar):
+    index.html               (HTML e CSS já estão unidos neste arquivo)
+    images/logo.webp         (logo grande, usada no topo/hero)
+    images/logo-mini.png     (logo com as iniciais GGZ, usada no menu e na aba do navegador)
+    images/patrocinadores.webp (barra com os patrocinadores)
+    images/idealizador.jpg   (foto do idealizador)
+
+  SEÇÃO "FÓRUM": as avaliações agora são salvas numa planilha do
+  Google Sheets, através de um Google Apps Script publicado como
+  Web App. Isso faz com que TODO MUNDO que visitar o site veja as
+  mesmas avaliações (antes, com localStorage, cada visitante só
+  via as avaliações enviadas no próprio navegador).
+  Veja o passo a passo completo no chat e cole a URL do seu Web
+  App na constante FORUM_API_URL, lá no <script> no fim da página.
+  ============================================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Titan+One&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --orange:#E54D1B;
+  --orange-deep:#C43F16;
+  --pink:#F2B7A0;
+  --pink-deep:#E89A7B;
+  --green:#0E763B;
+  --green-deep:#0A5A2D;
+  --gold:#EDB91F;
+  --gold-deep:#D6A20F;
+  --blue:#1553A0;
+  --blue-deep:#0F3F7A;
+  --red:#C23A2B;
+  --cream:#FBEEDD;
+  --cream-deep:#F3DFC4;
+  --ink:#1A1410;
+  --off:6px;
+  --off-sm:3px;
+  --radius:16px;
+  --radius-sm:10px;
+  --maxw:1120px;
+  --font-display:'Titan One', system-ui, sans-serif;
+  --font-body:'Space Grotesk', system-ui, -apple-system, sans-serif;
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--cream);
+  color:var(--ink);
+  font-family:var(--font-body);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block;}
+a{color:inherit;}
+ul{margin:0;padding:0;list-style:none;}
+section{scroll-margin-top:84px;}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+.icon{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;vertical-align:-0.15em;}
+
+h1,h2,h3,.display{font-family:var(--font-display);font-weight:400;line-height:1.08;letter-spacing:0.2px;}
+h2{font-size:clamp(1.9rem,1.4rem + 2.2vw,2.7rem);margin:0 0 14px;}
+h3{font-size:clamp(1.2rem,1rem + 0.8vw,1.5rem);margin:0 0 8px;}
+p{margin:0 0 14px;}
+.eyebrow-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--font-body);font-weight:600;font-size:0.85rem;
+  background:var(--cream);border:2.5px solid var(--ink);border-radius:999px;
+  padding:6px 16px;transform:rotate(-2deg);
+}
+
+/* ---------- buttons & sticker utility ---------- */
+.btn{
+  font-family:var(--font-display);font-size:1rem;
+  display:inline-flex;align-items:center;gap:10px;
+  padding:14px 26px;border-radius:999px;border:3px solid var(--ink);
+  background:var(--gold);color:var(--ink);
+  box-shadow:var(--off) var(--off) 0 var(--ink);
+  text-decoration:none;cursor:pointer;
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.btn:hover{transform:translate(2px,2px);box-shadow:4px 4px 0 var(--ink);}
+.btn:active{transform:translate(var(--off),var(--off));box-shadow:0 0 0 var(--ink);}
+.btn.btn-outline{background:var(--cream);}
+.btn.btn-blue{background:var(--blue);color:var(--cream);}
+.btn.btn-green{background:var(--green);color:var(--cream);}
+
+.sticker{
+  border:3px solid var(--ink);
+  border-radius:var(--radius);
+  box-shadow:var(--off) var(--off) 0 var(--ink);
+}
+
+/* ---------- nav ---------- */
+.nav{
+  position:sticky;top:0;z-index:50;
+  background:var(--cream);
+  border-bottom:3px solid var(--ink);
+}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:14px;padding-bottom:14px;}
+.nav-brand{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-size:1.1rem;text-decoration:none;color:var(--ink);}
+.nav-brand .nav-logo-mini{width:30px;height:30px;border-radius:7px;border:2px solid var(--ink);object-fit:cover;}
+.nav-links{display:flex;align-items:center;gap:24px;}
+.nav-links a{font-weight:600;text-decoration:none;font-size:0.98rem;position:relative;padding:4px 2px;}
+.nav-links a::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:3px;background:var(--orange);transform:scaleX(0);transform-origin:left;transition:transform .18s ease;}
+.nav-links a:hover::after{transform:scaleX(1);}
+.nav-cta{display:inline-flex;}
+.nav-toggle{display:none;background:none;border:2.5px solid var(--ink);border-radius:8px;padding:8px;cursor:pointer;}
+.nav-toggle svg{width:22px;height:22px;}
+
+/* ---------- hero ---------- */
+.hero{
+  background:var(--orange);
+  color:var(--cream);
+  position:relative;
+  overflow:hidden;
+  padding:64px 0 76px;
+  border-bottom:3px solid var(--ink);
+}
+.hero::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(rgba(255,255,255,.16) 2px, transparent 2px);
+  background-size:26px 26px;
+  opacity:.5;
+}
+.hero .wrap{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:22px;}
+.hero-logo{
+  width:min(260px, 46vw);
+  filter:drop-shadow(0 10px 0 rgba(0,0,0,.18));
+  animation:settle .8s cubic-bezier(.2,.9,.25,1.15) both;
+}
+.hero h1{
+  font-size:clamp(2.1rem, 1.4rem + 3.6vw, 3.9rem);
+  color:var(--cream);
+  max-width:16ch;
+  animation:rise .7s ease .15s both;
+}
+.hero .sub{
+  max-width:52ch;font-size:1.08rem;color:var(--cream);opacity:.94;
+  animation:rise .7s ease .28s both;
+}
+.hero-meta{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:12px;
+  animation:rise .7s ease .38s both;
+}
+.hero-meta .eyebrow-tag{background:var(--cream);color:var(--ink);}
+.hero-actions{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;animation:rise .7s ease .48s both;}
+
+@keyframes settle{
+  0%{opacity:0;transform:translateY(-18px) rotate(-6deg) scale(.94);}
+  100%{opacity:1;transform:translateY(0) rotate(-2deg) scale(1);}
+}
+@keyframes rise{
+  0%{opacity:0;transform:translateY(14px);}
+  100%{opacity:1;transform:translateY(0);}
+}
+@media (prefers-reduced-motion:reduce){
+  .hero-logo,.hero h1,.hero .sub,.hero-meta,.hero-actions{animation:none;}
+}
+
+/* ---------- section heading pattern ---------- */
+.section-head{max-width:640px;margin:0 0 40px;}
+.section-head p{color:#4a4038;}
+.section-pad{padding:76px 0;}
+
+/* ---------- carousel ---------- */
+.carousel-shell{position:relative;}
+.carousel-frame{
+  position:relative;overflow:hidden;
+  border:3px solid var(--ink);border-radius:20px;
+  box-shadow:var(--off) var(--off) 0 var(--ink);
+  background:var(--ink);
+}
+.carousel-track{display:flex;transition:transform .5s cubic-bezier(.65,0,.35,1);}
+.slide{min-width:100%;aspect-ratio:16/8.4;min-height:clamp(240px,42vw,460px);position:relative;display:flex;align-items:flex-end;}
+.slide img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+.slide-fallback{
+  width:100%;height:100%;position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+  color:var(--cream);
+}
+.slide-fallback svg{width:56px;height:56px;stroke:var(--cream);}
+.slide-fallback span{font-family:var(--font-display);font-size:1.05rem;letter-spacing:.3px;}
+.slide-cap{
+  position:relative;z-index:2;margin:0;padding:18px 22px;
+  background:linear-gradient(0deg, rgba(0,0,0,.55), transparent);
+  color:#fff;width:100%;font-weight:600;font-size:0.95rem;
+}
+.carousel-arrow{
+  position:absolute;top:50%;translate:0 -50%;
+  width:46px;height:46px;border-radius:50%;
+  border:3px solid var(--ink);background:var(--cream);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:4px 4px 0 var(--ink);z-index:5;
+}
+.carousel-arrow:hover{background:var(--gold);}
+.carousel-arrow.prev{left:-18px;}
+.carousel-arrow.next{right:-18px;}
+.carousel-dots{display:flex;justify-content:center;gap:10px;margin-top:20px;}
+.carousel-dots button{
+  width:12px;height:12px;border-radius:50%;border:2px solid var(--ink);
+  background:var(--cream);cursor:pointer;padding:0;
+}
+.carousel-dots button.is-active{background:var(--orange);}
+@media (max-width:640px){
+  .carousel-arrow{width:38px;height:38px;}
+  .carousel-arrow.prev{left:6px;}
+  .carousel-arrow.next{right:6px;}
+}
+
+/* ---------- about / mission ---------- */
+.about-grid{display:grid;grid-template-columns:1.15fr 0.85fr;gap:56px;align-items:start;}
+.about-copy p{font-size:1.04rem;color:#3a322b;}
+.value-stack{display:flex;flex-direction:column;gap:16px;}
+.value-card{
+  background:var(--cream);padding:20px 22px;
+  display:flex;align-items:flex-start;gap:14px;
+}
+.value-card:nth-child(1){background:var(--pink);}
+.value-card:nth-child(2){background:var(--gold);}
+.value-card:nth-child(3){background:#BFD9F2;}
+.value-card .icon-wrap{
+  flex:none;width:42px;height:42px;border-radius:10px;border:2.5px solid var(--ink);
+  background:var(--cream);display:flex;align-items:center;justify-content:center;
+}
+.value-card svg{width:22px;height:22px;}
+.value-card h3{margin:0 0 4px;font-size:1.05rem;}
+.value-card p{margin:0;font-size:0.92rem;color:#332b23;}
+
+@media (max-width:880px){
+  .about-grid{grid-template-columns:1fr;gap:32px;}
+}
+
+/* ---------- números da última edição ---------- */
+.stats{background:var(--ink);color:var(--cream);border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);}
+.stats .section-head p{color:#d8cfc4;}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px;}
+.stat-card{
+  background:rgba(255,255,255,.05);border:2.5px solid rgba(255,255,255,.25);
+  border-radius:var(--radius-sm);padding:22px 20px;
+  display:flex;flex-direction:column;gap:6px;align-items:flex-start;
+}
+.stat-card:nth-child(1){border-color:var(--pink);}
+.stat-card:nth-child(2){border-color:var(--gold);}
+.stat-card:nth-child(3){border-color:var(--green);}
+.stat-card:nth-child(4){border-color:var(--blue);}
+.stat-card:nth-child(5){border-color:var(--orange);}
+.stat-card .icon-wrap{
+  width:38px;height:38px;border-radius:10px;border:2px solid currentColor;
+  display:flex;align-items:center;justify-content:center;margin-bottom:6px;
+}
+.stat-card svg{width:20px;height:20px;}
+.stat-number{font-family:var(--font-display);font-size:clamp(1.6rem,1.3rem + 1.2vw,2.2rem);line-height:1;}
+.stat-label{font-size:0.92rem;color:#e7ddd0;}
+
+/* ---------- schedule / cronograma ---------- */
+.schedule{background:var(--green);color:var(--cream);border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);}
+.schedule .section-head p{color:#d8ecdf;}
+.schedule-rail{position:relative;padding-left:30px;}
+.schedule-rail::before{
+  content:"";position:absolute;left:9px;top:6px;bottom:6px;width:3px;background:var(--cream);opacity:.35;
+}
+.day-block{position:relative;margin-bottom:36px;}
+.day-block:last-child{margin-bottom:0;}
+.day-dot{
+  position:absolute;left:-30px;top:2px;width:22px;height:22px;border-radius:50%;
+  border:3px solid var(--cream);background:var(--green-deep);
+}
+.day-block[data-day="1"] .day-dot{background:var(--pink);}
+.day-block[data-day="2"] .day-dot{background:var(--gold);}
+.day-block[data-day="3"] .day-dot{background:var(--blue);}
+.day-heading{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:14px;}
+.day-heading h3{margin:0;font-size:1.3rem;}
+.day-date{
+  font-family:var(--font-body);font-weight:700;font-size:0.85rem;
+  background:var(--cream);color:var(--ink);border-radius:999px;padding:4px 12px;
+}
+.day-items{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;}
+.day-item{
+  background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.5);
+  border-radius:var(--radius-sm);padding:14px 16px;
+}
+.day-item .time{display:flex;align-items:center;gap:8px;font-weight:700;font-size:0.9rem;margin-bottom:4px;color:var(--cream);}
+.day-item .time svg{width:16px;height:16px;}
+.day-item p{margin:0;font-size:0.92rem;color:#e7f3ea;}
+
+/* ---------- gallery / drive links ---------- */
+.tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px;}
+.tab-btn{
+  font-family:var(--font-display);font-size:0.95rem;
+  padding:10px 20px;border-radius:999px;border:3px solid var(--ink);
+  background:var(--cream);cursor:pointer;
+}
+.tab-btn.is-active{background:var(--orange);color:var(--cream);}
+.tab-btn[data-day="1"].is-active{background:var(--pink);color:var(--ink);}
+.tab-btn[data-day="2"].is-active{background:var(--gold);color:var(--ink);}
+.tab-btn[data-day="3"].is-active{background:var(--blue);color:var(--cream);}
+
+.day-panel{display:none;}
+.day-panel.is-active{display:block;}
+.artist-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;}
+.artist-card{
+  background:var(--cream);padding:22px;display:flex;flex-direction:column;gap:12px;
+}
+.artist-card .tag{
+  align-self:flex-start;font-size:0.78rem;font-weight:700;
+  background:var(--ink);color:var(--cream);border-radius:999px;padding:4px 12px;
+}
+.artist-card h3{margin:0;}
+.artist-card p{margin:0;font-size:0.92rem;color:#4a4038;}
+.artist-card .btn{align-self:flex-start;margin-top:4px;font-size:0.9rem;padding:10px 18px;}
+
+/* ---------- patrocinadores ---------- */
+.sponsors{background:var(--cream-deep);border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);}
+.sponsors-frame{background:#fff;padding:22px;overflow-x:auto;}
+.sponsors-frame img{min-width:640px;width:100%;height:auto;margin:0 auto;}
+
+/* ---------- creator ---------- */
+.creator{background:var(--blue);color:var(--cream);border-top:3px solid var(--ink);}
+.creator-grid{display:grid;grid-template-columns:0.65fr 1.35fr;gap:52px;align-items:center;}
+.creator-photo-wrap{position:relative;justify-self:center;}
+.creator-photo{
+  width:min(280px,70vw);aspect-ratio:1;border-radius:50%;
+  border:4px solid var(--ink);box-shadow:var(--off) var(--off) 0 var(--ink);
+  background:linear-gradient(160deg,var(--gold),var(--pink));
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+.creator-photo img{width:100%;height:100%;object-fit:cover;}
+.creator-photo svg{width:38%;height:38%;stroke:var(--ink);opacity:.55;}
+.creator-badge{
+  position:absolute;bottom:6px;right:calc(50% - 130px);
+  background:var(--cream);color:var(--ink);
+  border:2.5px solid var(--ink);border-radius:999px;
+  padding:6px 14px;font-weight:700;font-size:0.8rem;
+  transform:rotate(-4deg);box-shadow:3px 3px 0 var(--ink);
+}
+.creator-copy p{color:#e7eefb;font-size:1.02rem;}
+.creator-quote{
+  margin:20px 0 0;padding:20px 22px;
+  background:rgba(255,255,255,.08);border-left:4px solid var(--gold);
+  border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+  font-family:var(--font-display);font-size:1.15rem;line-height:1.4;
+}
+.creator-quote svg{width:20px;height:20px;margin-bottom:8px;stroke:var(--gold);}
+@media (max-width:880px){
+  .creator-grid{grid-template-columns:1fr;text-align:center;}
+  .creator-badge{right:calc(50% - 120px);}
+}
+
+/* ---------- forum ---------- */
+.forum-grid{display:grid;grid-template-columns:380px 1fr;gap:40px;align-items:start;}
+.forum-form{background:var(--cream);padding:28px;display:flex;flex-direction:column;gap:18px;}
+.form-field{display:flex;flex-direction:column;gap:8px;font-weight:600;font-size:0.92rem;}
+.form-field em{font-weight:400;opacity:.65;font-style:normal;}
+.form-field input[type="text"],
+.form-field textarea{
+  font-family:var(--font-body);font-size:0.98rem;
+  border:2.5px solid var(--ink);border-radius:var(--radius-sm);
+  padding:10px 14px;background:#fff;color:var(--ink);resize:vertical;
+}
+.form-field input[type="text"]:focus,
+.form-field textarea:focus{outline:3px solid var(--gold);outline-offset:1px;}
+.star-input{display:flex;gap:6px;}
+.star-input button{background:none;border:none;padding:2px;cursor:pointer;line-height:0;}
+.star-input button svg{width:28px;height:28px;stroke:var(--ink);fill:none;transition:fill .12s ease, transform .1s ease;}
+.star-input button:hover svg{transform:scale(1.08);}
+.star-input button.is-filled svg{fill:var(--gold);}
+.form-msg{margin:0;font-size:0.85rem;font-weight:600;min-height:1.2em;}
+.form-msg.is-error{color:var(--red);}
+.form-msg.is-ok{color:var(--green-deep);}
+.forum-form .btn{align-self:flex-start;}
+.forum-form .btn[disabled]{opacity:.6;cursor:wait;}
+
+.forum-empty{color:#6b6055;font-style:italic;}
+.review-list{display:flex;flex-direction:column;gap:16px;}
+.review-card{background:var(--cream);padding:18px 20px;display:flex;flex-direction:column;gap:8px;}
+.review-card:nth-child(3n+1){background:var(--pink);}
+.review-card:nth-child(3n+2){background:var(--gold);}
+.review-card:nth-child(3n+3){background:#BFD9F2;}
+.review-card .review-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;}
+.review-card .review-name{font-family:var(--font-display);font-size:1rem;}
+.review-card .review-date{font-size:0.78rem;opacity:.6;}
+.review-card .star-display{display:flex;gap:3px;}
+.review-card .star-display svg{width:16px;height:16px;stroke:var(--ink);fill:none;}
+.review-card .star-display svg.is-filled{fill:var(--gold);}
+.review-card p{margin:0;font-size:0.94rem;color:#332b23;}
+@media (max-width:880px){
+  .forum-grid{grid-template-columns:1fr;}
+}
+
+/* ---------- footer ---------- */
+footer{background:var(--ink);color:var(--cream);padding:44px 0 28px;}
+.footer-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:24px;padding-bottom:26px;border-bottom:1px solid rgba(255,255,255,.15);margin-bottom:20px;}
+.footer-brand{font-family:var(--font-display);font-size:1.2rem;}
+.footer-links{display:flex;gap:22px;flex-wrap:wrap;}
+.footer-links a{text-decoration:none;font-size:0.92rem;opacity:.85;}
+.footer-links a:hover{opacity:1;}
+.footer-bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;font-size:0.82rem;opacity:.75;}
+.footer-tag{font-size:0.72rem;opacity:.5;}
+
+@media (max-width:880px){
+  .nav-links{position:fixed;top:65px;left:0;right:0;background:var(--cream);flex-direction:column;align-items:flex-start;padding:20px 24px;border-bottom:3px solid var(--ink);gap:16px;transform:translateY(-130%);transition:transform .25s ease;}
+  .nav-links.is-open{transform:translateY(0);}
+  .nav-cta{width:100%;}
+  .nav-cta .btn{width:100%;justify-content:center;}
+  .nav-toggle{display:flex;}
+}
+</style>
+</head>
+<body>
+
+<!-- sprite de ícones -->
+<svg style="display:none" aria-hidden="true" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M7 4h10v4a5 5 0 0 1-10 0V4Z"/><path d="M7 5H4a3 3 0 0 0 3 5"/><path d="M17 5h3a3 3 0 0 1-3 5"/><path d="M12 13v3"/><path d="M9 20h6"/><path d="M10 16.5h4l.6 3.5H9.4l.6-3.5Z"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/><path d="M8 21h8"/></symbol>
+  <symbol id="i-store" viewBox="0 0 24 24"><path d="M4 9 5 4h14l1 5"/><path d="M4 9h16v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9Z"/><path d="M9 20v-6h6v6"/></symbol>
+  <symbol id="i-mask" viewBox="0 0 24 24"><path d="M4 5c4 3 12 3 16 0 0 9-3 15-8 15S4 14 4 5Z"/><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M9 14c1.5 1 4.5 1 6 0"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M15.5 13.2c2.4.3 4.5 2.4 4.5 5.3"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></symbol>
+  <symbol id="i-drive" viewBox="0 0 24 24"><path d="M8 3h8l5 9-4 9H7l-4-9 5-9Z"/><path d="M9 12h6"/></symbol>
+  <symbol id="i-quote" viewBox="0 0 24 24"><path d="M7 8c-2 0-3.5 1.6-3.5 4S5 16 7 16h.5v-4H6c0-1.4.8-2.3 2-2.6V8Z"/><path d="M16 8c-2 0-3.5 1.6-3.5 4s1.5 4 3.5 4h.5v-4h-1.5c0-1.4.8-2.3 2-2.6V8Z"/></symbol>
+  <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="M15 5 8 12l7 7"/></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4 3 6.5v14L9 18l6 2.5 6-2.5v-14L15 6.5 9 4Z"/><path d="M9 4v14M15 6.5V20.5"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3.2l2.7 5.6 6.1.6-4.6 4.2 1.3 6-5.5-3.1-5.5 3.1 1.3-6-4.6-4.2 6.1-.6L12 3.2Z"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4V5Z"/><path d="M8 9h8M8 12.5h5"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 24 24"><path d="M3 9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v1.5a1.8 1.8 0 0 0 0 3.6V16a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1.9a1.8 1.8 0 0 0 0-3.6V9Z"/><path d="M9 7v10" stroke-dasharray="2 2"/></symbol>
+</svg>
+
+<header class="nav">
+  <div class="wrap">
+    <a href="#topo" class="nav-brand"><img src="images/logo-mini.png" alt="" class="nav-logo-mini"> GamerGeekZonia</a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#sobre">Sobre</a>
+      <a href="#numeros">Números</a>
+      <a href="#cronograma">Cronograma</a>
+      <a href="#fotos">Fotos</a>
+      <a href="#patrocinadores">Patrocinadores</a>
+      <a href="#criador">Criador</a>
+      <a href="#forum">Fórum</a>
+      <div class="nav-cta"><a href="#fotos" class="btn">Ver fotos</a></div>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false">
+      <svg class="icon" id="navToggleIcon"><use href="#i-menu" xlink:href="#i-menu"/></svg>
+    </button>
+  </div>
+</header>
+
+<section class="hero" id="topo">
+  <div class="wrap">
+    <img class="hero-logo" src="images/logo.webp" alt="Logo GamerGeekZonia">
+    <h1>O maior encontro geek da Amazônia chegou.</h1>
+    <p class="sub">Três dias de games, cultura pop, cosplay e música pra reunir a galera geek de Manaus em um só lugar.</p>
+    <div class="hero-meta">
+      <span class="eyebrow-tag"><svg class="icon"><use href="#i-calendar" xlink:href="#i-calendar"/></svg> [DATA DO EVENTO]</span>
+      <span class="eyebrow-tag"><svg class="icon"><use href="#i-map" xlink:href="#i-map"/></svg> [LOCAL DO EVENTO], Manaus/AM</span>
+    </div>
+    <div class="hero-actions">
+      <a href="#cronograma" class="btn">Ver cronograma</a>
+      <a href="#fotos" class="btn btn-outline">Fotos do evento</a>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad" id="carrossel">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Um gostinho do que rola por lá</h2>
+      <p>Registros das edições do GamerGeekZonia — arena de torneios, palco principal, feira geek e a galera fantasiada.</p>
+    </div>
+
+    <div class="carousel-shell">
+      <div class="carousel-frame">
+        <div class="carousel-track" id="carouselTrack">
+
+          <!-- EDITAR: foto do carrossel 1 — troque o bloco .slide-fallback por <img src="foto1.jpg" alt="..."> -->
+          <div class="slide" style="background:var(--green)">
+            <div class="slide-fallback"><svg><use href="#i-trophy" xlink:href="#i-trophy"/></svg><span>Arena de Torneios</span></div>
+            <p class="slide-cap">Arena de Torneios — disputas de e-sports ao vivo</p>
+          </div>
+
+          <!-- EDITAR: foto do carrossel 2 -->
+          <div class="slide" style="background:var(--blue)">
+            <div class="slide-fallback"><svg><use href="#i-mic" xlink:href="#i-mic"/></svg><span>Palco Principal</span></div>
+            <p class="slide-cap">Palco Principal — shows e apresentações</p>
+          </div>
+
+          <!-- EDITAR: foto do carrossel 3 -->
+          <div class="slide" style="background:var(--orange-deep)">
+            <div class="slide-fallback"><svg><use href="#i-store" xlink:href="#i-store"/></svg><span>Feira Geek</span></div>
+            <p class="slide-cap">Feira Geek — artesanato e colecionáveis</p>
+          </div>
+
+          <!-- EDITAR: foto do carrossel 4 -->
+          <div class="slide" style="background:var(--gold-deep)">
+            <div class="slide-fallback"><svg><use href="#i-mask" xlink:href="#i-mask"/></svg><span>Concurso de Cosplay</span></div>
+            <p class="slide-cap">Concurso de Cosplay — o público escolhe o campeão</p>
+          </div>
+
+          <!-- EDITAR: foto do carrossel 5 -->
+          <div class="slide" style="background:var(--red)">
+            <div class="slide-fallback"><svg><use href="#i-users" xlink:href="#i-users"/></svg><span>Comunidade</span></div>
+            <p class="slide-cap">Comunidade — a galera geek reunida</p>
+          </div>
+
+        </div>
+        <button class="carousel-arrow prev" id="prevBtn" aria-label="Foto anterior"><svg class="icon"><use href="#i-chevron-left" xlink:href="#i-chevron-left"/></svg></button>
+        <button class="carousel-arrow next" id="nextBtn" aria-label="Próxima foto"><svg class="icon"><use href="#i-chevron-right" xlink:href="#i-chevron-right"/></svg></button>
+      </div>
+      <div class="carousel-dots" id="carouselDots"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad" id="sobre">
+  <div class="wrap about-grid">
+    <div class="about-copy">
+      <div class="section-head" style="margin-bottom:20px;">
+        <h2>Sobre o GamerGeekZonia</h2>
+      </div>
+      <p>O GamerGeekZonia nasceu pra reunir, num só lugar, tudo que o Norte do Brasil tem de mais geek: games, quadrinhos, animes, cosplay, cultura pop e a galera que vive esse universo o ano inteiro. Durante três dias, Manaus vira o point de torneios, painéis, encontros com criadores de conteúdo e uma feira cheia de novidades pra colecionador.</p>
+      <p>Nossa missão é simples: dar palco pro talento geek da Amazônia, aproximar comunidades que hoje só se encontram online e mostrar que cultura pop de qualidade também se faz — e se vive — bem longe do eixo Rio-São Paulo.</p>
+    </div>
+    <div class="value-stack">
+      <div class="value-card">
+        <div class="icon-wrap"><svg><use href="#i-users" xlink:href="#i-users"/></svg></div>
+        <div><h3>Comunidade</h3><p>Um encontro presencial pra quem só se via em grupos e streams.</p></div>
+      </div>
+      <div class="value-card">
+        <div class="icon-wrap"><svg><use href="#i-mask" xlink:href="#i-mask"/></svg></div>
+        <div><h3>Cultura pop</h3><p>Games, animes, cosplay e quadrinhos com o mesmo peso e espaço.</p></div>
+      </div>
+      <div class="value-card">
+        <div class="icon-wrap"><svg><use href="#i-map" xlink:href="#i-map"/></svg></div>
+        <div><h3>Amazônia em cena</h3><p>Espaço pra artistas e criadores locais mostrarem seu trabalho.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stats section-pad" id="numeros">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>A última edição em números</h2>
+      <p>Um raio-x do que o GamerGeekZonia movimentou na edição mais recente.</p>
+    </div>
+    <!-- EDITAR: troque os valores [NÚMERO] pelos números reais da última edição -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="icon-wrap"><svg><use href="#i-users" xlink:href="#i-users"/></svg></div>
+        <span class="stat-number">[NÚMERO]</span>
+        <span class="stat-label">visitantes</span>
+      </div>
+      <div class="stat-card">
+        <div class="icon-wrap"><svg><use href="#i-store" xlink:href="#i-store"/></svg></div>
+        <span class="stat-number">[NÚMERO]</span>
+        <span class="stat-label">expositores na feira geek</span>
+      </div>
+      <div class="stat-card">
+        <div class="icon-wrap"><svg><use href="#i-clock" xlink:href="#i-clock"/></svg></div>
+        <span class="stat-number">[NÚMERO]</span>
+        <span class="stat-label">horas de programação</span>
+      </div>
+      <div class="stat-card">
+        <div class="icon-wrap"><svg><use href="#i-mic" xlink:href="#i-mic"/></svg></div>
+        <span class="stat-number">[NÚMERO]</span>
+        <span class="stat-label">shows e atrações no palco</span>
+      </div>
+      <div class="stat-card">
+        <div class="icon-wrap"><svg><use href="#i-trophy" xlink:href="#i-trophy"/></svg></div>
+        <span class="stat-number">[NÚMERO]</span>
+        <span class="stat-label">jogadores nos torneios</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="schedule section-pad" id="cronograma">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Cronograma</h2>
+      <p>Três dias de programação — de abertura a encerramento.</p>
+    </div>
+
+    <div class="schedule-rail">
+      <div class="day-block" data-day="1">
+        <span class="day-dot"></span>
+        <div class="day-heading"><h3>Dia 01 — Sexta-feira</h3><span class="day-date">[DD/MM]</span></div>
+        <div class="day-items">
+          <div class="day-item"><div class="time"><svg class="icon"><use href="#i-clock" xlink:href="#i-clock"/></svg> 14h</div><p>Abertura oficial e credenciamento</p></div>
+          <div class="day-item"><div class="time"><svg class="icon"><use href="#i-clock" xlink:href="#i-clock"/></svg> 16h</div><p>Início dos torneios de e-sports</p></div>
+          <div class="day-item"><div class="time"><svg class="icon"><use href="#i-clock" xlink:href="#i-clock"/></svg> 19h</div><p>Show de abertura no palco principal</p></div>
+        </div>
+      </div>
+
+      <div class="day-block" data-day="2">
+        <span class="day-dot"></span>
+        <div class="day-heading"><h3>Dia 02 — Sábado</h3><span class="day-date">[DD/MM]</span></div>
+        <div class="day-items">
+          <div class="day-item"><div class="time"><svg class="icon"><use href="#i-clock" xlink:href="#i-clock"/></svg> 11h</div><p>Abertura da feira geek</p></div>
+          <div class="day-item"><div class="time"><svg class="icon"><use href="#i-clock" xlink:href="#i-clock"/></svg> 15h</div><p>Concurso de cosplay</p></div>
+          <div class="day-item"><div class="time"><svg class="icon"><use href="#i-clock" xlink:href="#i-clock"/></svg> 20h</div><p>Show da noite</p></div>
+        </div>
+      </div>
+
+      <div class="day-block" data-day="3">
+        <span class="day-dot"></span>
+        <div class="day-heading"><h3>Dia 03 — Domingo</h3><span class="day-date">[DD/MM]</span></div>
+        <div class="day-items">
+          <div class="day-item"><div class="time"><svg class="icon"><use href="#i-clock" xlink:href="#i-clock"/></svg> 12h</div><p>Finais dos torneios</p></div>
+          <div class="day-item"><div class="time"><svg class="icon"><use href="#i-clock" xlink:href="#i-clock"/></svg> 17h</div><p>Premiações</p></div>
+          <div class="day-item"><div class="time"><svg class="icon"><use href="#i-clock" xlink:href="#i-clock"/></svg> 19h</div><p>Show de encerramento</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad" id="fotos">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Fotos do evento</h2>
+      <p>As fotos oficiais de cada dia, organizadas por show. Clique pra abrir a pasta no Drive.</p>
+    </div>
+
+    <div class="tabs" id="tabs" role="tablist">
+      <button class="tab-btn is-active" data-day="1" role="tab" aria-selected="true">Dia 01</button>
+      <button class="tab-btn" data-day="2" role="tab" aria-selected="false">Dia 02</button>
+      <button class="tab-btn" data-day="3" role="tab" aria-selected="false">Dia 03</button>
+    </div>
+
+    <div class="day-panel is-active" data-day="1">
+      <div class="artist-grid">
+        <div class="artist-card">
+          <span class="tag">Dia 01</span>
+          <h3>Abertura Oficial</h3>
+          <p>Registros da abertura e credenciamento do evento.</p>
+          <!-- EDITAR: cole o link da pasta do Drive no href -->
+          <a href="#" class="btn btn-green" data-drive="[LINK DO DRIVE]"><svg class="icon"><use href="#i-drive" xlink:href="#i-drive"/></svg> Abrir pasta no Drive</a>
+        </div>
+        <div class="artist-card">
+          <span class="tag">Dia 01</span>
+          <h3>Show: [Nome do Artista 1]</h3>
+          <p>Fotos do show de abertura no palco principal.</p>
+          <a href="#" class="btn btn-green" data-drive="[LINK DO DRIVE]"><svg class="icon"><use href="#i-drive" xlink:href="#i-drive"/></svg> Abrir pasta no Drive</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-panel" data-day="2">
+      <div class="artist-grid">
+        <div class="artist-card">
+          <span class="tag">Dia 02</span>
+          <h3>Show: [Nome do Artista 2]</h3>
+          <p>Fotos da apresentação da tarde de sábado.</p>
+          <a href="#" class="btn btn-green" data-drive="[LINK DO DRIVE]"><svg class="icon"><use href="#i-drive" xlink:href="#i-drive"/></svg> Abrir pasta no Drive</a>
+        </div>
+        <div class="artist-card">
+          <span class="tag">Dia 02</span>
+          <h3>Show: [Nome do Artista 3]</h3>
+          <p>Fotos do show da noite de sábado.</p>
+          <a href="#" class="btn btn-green" data-drive="[LINK DO DRIVE]"><svg class="icon"><use href="#i-drive" xlink:href="#i-drive"/></svg> Abrir pasta no Drive</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-panel" data-day="3">
+      <div class="artist-grid">
+        <div class="artist-card">
+          <span class="tag">Dia 03</span>
+          <h3>Show: [Nome do Artista 4] — Encerramento</h3>
+          <p>Fotos do show de encerramento e premiações.</p>
+          <a href="#" class="btn btn-green" data-drive="[LINK DO DRIVE]"><svg class="icon"><use href="#i-drive" xlink:href="#i-drive"/></svg> Abrir pasta no Drive</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sponsors section-pad" id="patrocinadores">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Quem apoiou a última edição</h2>
+      <p>Realização, parceiros oficiais, ESG, mídia partners e apoiadores do GamerGeekZonia.</p>
+    </div>
+    <div class="sponsors-frame sticker">
+      <img src="images/patrocinadores.webp" alt="Logos dos patrocinadores e parceiros do GamerGeekZonia: Sete on Hub, Instituto Headscon, Anime Jungle Party, Doritos, Cheetos, Evereste, Grupo Rede Amazônica e Ministério da Integração e do Desenvolvimento Regional">
+    </div>
+  </div>
+</section>
+
+<section class="creator section-pad" id="criador">
+  <div class="wrap creator-grid">
+    <div class="creator-photo-wrap">
+      <div class="creator-photo">
+        <img src="images/idealizador.jpg" alt="Foto do idealizador do GamerGeekZonia">
+      </div>
+      <span class="creator-badge">Idealizador</span>
+    </div>
+    <div class="creator-copy">
+      <div class="section-head" style="margin-bottom:16px;">
+        <h2>Quem criou o GamerGeekZonia</h2>
+      </div>
+      <p><strong>[Nome do idealizador]</strong> começou organizando pequenos encontros geek com os amigos, entre torneios caseiros e maratonas de anime. O que era um encontro de sala virou feira, virou evento — e hoje é o GamerGeekZonia: uma resposta pra quem sempre disse que a cena geek do Norte não tinha espaço pra crescer.</p>
+      <p>Com anos de estrada organizando comunidades e eventos de cultura pop em Manaus, ele segue à frente do projeto com um único objetivo: fazer da Amazônia um dos points mais fortes do calendário geek nacional.</p>
+      <blockquote class="creator-quote">
+        <svg><use href="#i-quote" xlink:href="#i-quote"/></svg>
+        <p style="margin:0;">"A gente não queria só levar um evento pra Manaus. A gente queria provar que dava pra criar um evento daqui pra fora."</p>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad" id="forum">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Fórum</h2>
+      <p>Deixe seu nome, sua nota e, se quiser, um comentário sobre o evento — o que curtiu e o que pode melhorar.</p>
+    </div>
+
+    <div class="forum-grid">
+      <form class="forum-form sticker" id="forumForm">
+        <label class="form-field">
+          <span>Nome</span>
+          <input type="text" id="forumName" placeholder="Seu nome" required maxlength="60">
+        </label>
+
+        <div class="form-field">
+          <span>Avaliação</span>
+          <div class="star-input" id="starInput" role="radiogroup" aria-label="Nota de 1 a 5 estrelas">
+            <button type="button" data-value="1" aria-label="1 estrela"><svg class="icon"><use href="#i-star" xlink:href="#i-star"/></svg></button>
+            <button type="button" data-value="2" aria-label="2 estrelas"><svg class="icon"><use href="#i-star" xlink:href="#i-star"/></svg></button>
+            <button type="button" data-value="3" aria-label="3 estrelas"><svg class="icon"><use href="#i-star" xlink:href="#i-star"/></svg></button>
+            <button type="button" data-value="4" aria-label="4 estrelas"><svg class="icon"><use href="#i-star" xlink:href="#i-star"/></svg></button>
+            <button type="button" data-value="5" aria-label="5 estrelas"><svg class="icon"><use href="#i-star" xlink:href="#i-star"/></svg></button>
+          </div>
+          <input type="hidden" id="forumRating" value="0">
+        </div>
+
+        <label class="form-field">
+          <span>Comentário <em>(opcional)</em></span>
+          <textarea id="forumComment" rows="4" placeholder="O que achou do evento? O que pode melhorar?" maxlength="400"></textarea>
+        </label>
+
+        <p class="form-msg" id="forumMsg" role="alert"></p>
+
+        <button type="submit" class="btn" id="forumSubmitBtn">Enviar avaliação</button>
+      </form>
+
+      <div class="forum-reviews">
+        <p class="forum-empty" id="forumEmpty">Carregando avaliações...</p>
+        <ul class="review-list" id="reviewList"></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <span class="footer-brand">GamerGeekZonia</span>
+      <div class="footer-links">
+        <a href="#sobre">Sobre</a>
+        <a href="#numeros">Números</a>
+        <a href="#cronograma">Cronograma</a>
+        <a href="#fotos">Fotos</a>
+        <a href="#patrocinadores">Patrocinadores</a>
+        <a href="#criador">Criador</a>
+        <a href="#forum">Fórum</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 GamerGeekZonia. Todos os direitos reservados a [Autor 1] e [Autor 2].</span>
+      <span class="footer-tag">v1.1 — protótipo em evolução</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // menu mobile
+  var toggle = document.getElementById('navToggle');
+  var links = document.getElementById('navLinks');
+  var toggleIcon = document.getElementById('navToggleIcon');
+  toggle.addEventListener('click', function(){
+    var open = links.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    toggleIcon.innerHTML = open ? '<use href="#i-close" xlink:href="#i-close"/>' : '<use href="#i-menu" xlink:href="#i-menu"/>';
+  });
+  links.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){
+      links.classList.remove('is-open');
+      toggle.setAttribute('aria-expanded','false');
+      toggleIcon.innerHTML = '<use href="#i-menu" xlink:href="#i-menu"/>';
+    });
+  });
+
+  // carrossel
+  var track = document.getElementById('carouselTrack');
+  var slides = track.querySelectorAll('.slide');
+  var dotsWrap = document.getElementById('carouselDots');
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var index = 0;
+  var autoplayTimer;
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  slides.forEach(function(_, i){
+    var dot = document.createElement('button');
+    dot.setAttribute('aria-label', 'Ir para foto ' + (i + 1));
+    if (i === 0) dot.classList.add('is-active');
+    dot.addEventListener('click', function(){ goTo(i); });
+    dotsWrap.appendChild(dot);
+  });
+  var dots = dotsWrap.querySelectorAll('button');
+
+  function goTo(i){
+    index = (i + slides.length) % slides.length;
+    track.style.transform = 'translateX(-' + (index * 100) + '%)';
+    dots.forEach(function(d, di){ d.classList.toggle('is-active', di === index); });
+  }
+  function next(){ goTo(index + 1); }
+  function prev(){ goTo(index - 1); }
+
+  nextBtn.addEventListener('click', function(){ next(); resetAutoplay(); });
+  prevBtn.addEventListener('click', function(){ prev(); resetAutoplay(); });
+
+  function startAutoplay(){
+    if (reduceMotion) return;
+    autoplayTimer = setInterval(next, 6000);
+  }
+  function resetAutoplay(){
+    clearInterval(autoplayTimer);
+    startAutoplay();
+  }
+  var frame = document.querySelector('.carousel-frame');
+  frame.addEventListener('mouseenter', function(){ clearInterval(autoplayTimer); });
+  frame.addEventListener('mouseleave', startAutoplay);
+  startAutoplay();
+
+  // tabs fotos por dia
+  var tabBtns = document.querySelectorAll('.tab-btn');
+  var panels = document.querySelectorAll('.day-panel');
+  tabBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var day = btn.getAttribute('data-day');
+      tabBtns.forEach(function(b){
+        b.classList.toggle('is-active', b === btn);
+        b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+      });
+      panels.forEach(function(p){
+        p.classList.toggle('is-active', p.getAttribute('data-day') === day);
+      });
+    });
+  });
+
+  // ------------------------------------------------------------
+  // FÓRUM DE AVALIAÇÕES — agora usando Google Sheets como banco
+  // ------------------------------------------------------------
+  // 1. Crie uma planilha no Google Sheets com o cabeçalho:
+  //    Nome | Nota | Comentario | Data
+  // 2. Nessa planilha, abra Extensões > Apps Script e cole o
+  //    código do arquivo "google-apps-script.gs" (enviado no chat).
+  // 3. Publique como Web App (Implantar > Nova implantação > App
+  //    da Web), com acesso "Qualquer pessoa".
+  // 4. Cole a URL do Web App gerada aqui embaixo, em FORUM_API_URL.
+  // ------------------------------------------------------------
+  var FORUM_API_URL = '[URL DO GOOGLE APPS SCRIPT]';
+
+  var forumForm = document.getElementById('forumForm');
+  var starInput = document.getElementById('starInput');
+  var starButtons = starInput.querySelectorAll('button');
+  var ratingField = document.getElementById('forumRating');
+  var nameField = document.getElementById('forumName');
+  var commentField = document.getElementById('forumComment');
+  var msgEl = document.getElementById('forumMsg');
+  var listEl = document.getElementById('reviewList');
+  var emptyEl = document.getElementById('forumEmpty');
+  var submitBtn = document.getElementById('forumSubmitBtn');
+
+  function escapeHtml(str){
+    var div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function paintStars(value){
+    starButtons.forEach(function(btn){
+      var v = parseInt(btn.getAttribute('data-value'), 10);
+      btn.classList.toggle('is-filled', v <= value);
+    });
+  }
+
+  starButtons.forEach(function(btn){
+    btn.addEventListener('mouseenter', function(){ paintStars(parseInt(btn.getAttribute('data-value'), 10)); });
+    btn.addEventListener('click', function(){
+      var v = parseInt(btn.getAttribute('data-value'), 10);
+      ratingField.value = v;
+      paintStars(v);
+    });
+  });
+  starInput.addEventListener('mouseleave', function(){ paintStars(parseInt(ratingField.value, 10) || 0); });
+
+  function starsMarkup(rating){
+    var out = '';
+    for (var i = 1; i <= 5; i++){
+      out += '<svg class="' + (i <= rating ? 'is-filled' : '') + '"><use href="#i-star" xlink:href="#i-star"/></svg>';
+    }
+    return out;
+  }
+
+  function fetchReviews(){
+    return fetch(FORUM_API_URL)
+      .then(function(res){ return res.json(); })
+      .catch(function(){ return null; });
+  }
+
+  function sendReview(review){
+    return fetch(FORUM_API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(review)
+    });
+  }
+
+  function renderReviews(reviews){
+    if (!reviews){
+      emptyEl.style.display = 'block';
+      emptyEl.textContent = 'Não foi possível carregar as avaliações agora. Confira se a URL do Google Apps Script foi configurada.';
+      listEl.innerHTML = '';
+      return;
+    }
+    emptyEl.style.display = reviews.length ? 'none' : 'block';
+    emptyEl.textContent = 'Ainda não tem nenhuma avaliação por aqui. Seja o primeiro a opinar!';
+    listEl.innerHTML = reviews.map(function(r){
+      var d = new Date(r.date);
+      var dateLabel = isNaN(d) ? '' : d.toLocaleDateString('pt-BR');
+      return '<li class="review-card">' +
+          '<div class="review-head">' +
+            '<span class="review-name">' + escapeHtml(r.name) + '</span>' +
+            '<span class="review-date">' + dateLabel + '</span>' +
+          '</div>' +
+          '<div class="star-display">' + starsMarkup(Number(r.rating)) + '</div>' +
+          (r.comment ? '<p>' + escapeHtml(r.comment) + '</p>' : '') +
+        '</li>';
+    }).join('');
+  }
+
+  function loadAndRenderReviews(){
+    fetchReviews().then(renderReviews);
+  }
+
+  forumForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = nameField.value.trim();
+    var rating = parseInt(ratingField.value, 10) || 0;
+    var comment = commentField.value.trim();
+
+    if (!name){
+      msgEl.textContent = 'Preenche seu nome antes de enviar.';
+      msgEl.className = 'form-msg is-error';
+      return;
+    }
+    if (!rating){
+      msgEl.textContent = 'Escolhe de 1 a 5 estrelas antes de enviar.';
+      msgEl.className = 'form-msg is-error';
+      return;
+    }
+
+    submitBtn.setAttribute('disabled', 'disabled');
+    msgEl.textContent = 'Enviando...';
+    msgEl.className = 'form-msg';
+
+    sendReview({ name: name, rating: rating, comment: comment })
+      .then(function(){
+        forumForm.reset();
+        ratingField.value = 0;
+        paintStars(0);
+        msgEl.textContent = 'Valeu! Sua avaliação foi enviada.';
+        msgEl.className = 'form-msg is-ok';
+        loadAndRenderReviews();
+      })
+      .catch(function(){
+        msgEl.textContent = 'Não deu pra enviar agora. Verifique a URL do Google Apps Script (FORUM_API_URL) e tente de novo.';
+        msgEl.className = 'form-msg is-error';
+      })
+      .finally(function(){
+        submitBtn.removeAttribute('disabled');
+      });
+  });
+
+  loadAndRenderReviews();
+})();
+</script>
+
+</body>
+</html>
