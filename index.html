@@ -15,21 +15,23 @@
   texto visível, ou com um comentário "EDITAR:" logo acima do
   trecho de código. Os principais pontos são:
 
-  1) Data e local do evento          -> buscar "[DATA DO EVENTO]"
-  2) As 5 fotos do carrossel         -> buscar "EDITAR: foto do carrossel"
-  3) Links do Google Drive           -> buscar "[LINK DO DRIVE]"
-  4) Nomes dos artistas/shows        -> buscar "[Nome do Artista"
-  5) Números da última edição        -> buscar "[NÚMERO]"
-  6) Nome, foto e frase do criador   -> buscar "[Nome do idealizador]"
-  7) Nomes dos dois autores no rodapé-> buscar "[Autor 1]" e "[Autor 2]"
-  8) URL do Google Apps Script (fórum)-> buscar "[URL DO GOOGLE APPS SCRIPT]"
+  1) Data e local do evento          -> buscar "EM BREVE" (no topo/hero)
+  2) As 5 fotos do carrossel         -> já preenchidas (images/GGZONIA-36.jpg e outras)
+  3) Links do Google Drive           -> já preenchidos, na seção "Fotos"
+  4) Cronograma dos 3 dias           -> buscar "EM BREVE" na seção "Cronograma"
+  5) Números da última edição        -> já preenchidos (18 MIL, 32 COLETIVOS etc.)
+  6) Nome, foto e frase do criador   -> já preenchidos (Leo Andrade)
+  7) Nomes dos dois autores no rodapé-> já preenchidos
+  8) URL do Google Apps Script (fórum)-> já preenchida
+  9) Logos dos patrocinadores        -> buscar "EDITAR: troque o src de cada logo"
 
   ESTRUTURA DE PASTAS (mantenha tudo junto ao publicar):
-    index.html               (HTML e CSS já estão unidos neste arquivo)
-    images/logo.webp         (logo grande, usada no topo/hero)
-    images/logo-mini.png     (logo com as iniciais GGZ, usada no menu e na aba do navegador)
-    images/patrocinadores.webp (barra com os patrocinadores)
-    images/idealizador.jpg   (foto do idealizador)
+    index.html                 (HTML e CSS já estão unidos neste arquivo)
+    images/logo.webp           (logo grande, usada no topo/hero)
+    images/logo-mini.png       (logo com as iniciais GGZ, usada no menu e na aba do navegador)
+    images/idealizador.jpg     (foto do idealizador)
+    images/GGZONIA-36.jpg, GGZONIA-343.jpg, Foto-318.jpg, Foto-26.jpg, Foto-252.jpg (fotos do carrossel)
+    images/sponsor-01-l7hub.png até sponsor-08-ministerio.png (logos dos patrocinadores, DIRETO em images/, sem subpasta)
 
   SEÇÃO "FÓRUM": as avaliações agora são salvas numa planilha do
   Google Sheets, através de um Google Apps Script publicado como
@@ -263,211 +265,6 @@ p{margin:0 0 14px;}
 /* ---------- números da última edição ---------- */
 .stats{background:var(--ink);color:var(--cream);border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);}
 .stats .section-head p{color:#d8cfc4;}
-.stats-grid{display:grid;grid-template-columns:1fr;gap:18px;}
-@media (min-width:560px){
-  .stats-grid{grid-template-columns:repeat(2,1fr);}
-}
-@media (min-width:900px){
-  .stats-grid{grid-template-columns:repeat(3,1fr);}
-}
-.stat-card{
-  background:rgba(255,255,255,.05);border:2.5px solid rgba(255,255,255,.25);
-  border-radius:var(--radius-sm);padding:22px 20px;
-  display:flex;flex-direction:column;gap:6px;align-items:flex-start;
-  min-width:0;
-}
-.stat-card:nth-child(1){border-color:var(--pink);}
-.stat-card:nth-child(2){border-color:var(--gold);}
-.stat-card:nth-child(3){border-color:var(--green);}
-.stat-card:nth-child(4){border-color:var(--blue);}
-.stat-card:nth-child(5){border-color:var(--orange);}
-.stat-card .icon-wrap{
-  width:38px;height:38px;border-radius:10px;border:2px solid currentColor;
-  display:flex;align-items:center;justify-content:center;margin-bottom:6px;
-  flex-shrink:0;
-}
-.stat-card svg{width:20px;height:20px;}
-.stat-number{
-  font-family:var(--font-display);font-size:clamp(1.35rem,1.1rem + 1vw,2.2rem);line-height:1.15;
-  max-width:100%;overflow-wrap:break-word;word-break:break-word;hyphens:auto;
-}
-.stat-label{font-size:0.92rem;color:#e7ddd0;max-width:100%;overflow-wrap:break-word;word-break:break-word;}
-
-/* ---------- schedule / cronograma ---------- */
-.schedule{background:var(--green);color:var(--cream);border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);}
-.schedule .section-head p{color:#d8ecdf;}
-.schedule-rail{position:relative;padding-left:30px;}
-.schedule-rail::before{
-  content:"";position:absolute;left:9px;top:6px;bottom:6px;width:3px;background:var(--cream);opacity:.35;
-}
-.day-block{position:relative;margin-bottom:36px;}
-.day-block:last-child{margin-bottom:0;}
-.day-dot{
-  position:absolute;left:-30px;top:2px;width:22px;height:22px;border-radius:50%;
-  border:3px solid var(--cream);background:var(--green-deep);
-}
-.day-block[data-day="1"] .day-dot{background:var(--pink);}
-.day-block[data-day="2"] .day-dot{background:var(--gold);}
-.day-block[data-day="3"] .day-dot{background:var(--blue);}
-.day-heading{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:14px;}
-.day-heading h3{margin:0;font-size:1.3rem;}
-.day-date{
-  font-family:var(--font-body);font-weight:700;font-size:0.85rem;
-  background:var(--cream);color:var(--ink);border-radius:999px;padding:4px 12px;
-}
-.day-items{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;}
-.day-item{
-  background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.5);
-  border-radius:var(--radius-sm);padding:14px 16px;
-}
-.day-item .time{display:flex;align-items:center;gap:8px;font-weight:700;font-size:0.9rem;margin-bottom:4px;color:var(--cream);}
-.day-item .time svg{width:16px;height:16px;}
-.day-item p{margin:0;font-size:0.92rem;color:#e7f3ea;}
-
-/* ---------- gallery / drive links ---------- */
-.tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px;}
-.tab-btn{
-  font-family:var(--font-display);font-size:0.95rem;
-  padding:10px 20px;border-radius:999px;border:3px solid var(--ink);
-  background:var(--cream);cursor:pointer;
-}
-.tab-btn.is-active{background:var(--orange);color:var(--cream);}
-.tab-btn[data-day="1"].is-active{background:var(--pink);color:var(--ink);}
-.tab-btn[data-day="2"].is-active{background:var(--gold);color:var(--ink);}
-.tab-btn[data-day="3"].is-active{background:var(--blue);color:var(--cream);}
-
-.day-panel{display:none;}
-.day-panel.is-active{display:block;}
-.artist-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;}
-.artist-card{
-  background:var(--cream);padding:22px;display:flex;flex-direction:column;gap:12px;
-}
-.artist-card .tag{
-  align-self:flex-start;font-size:0.78rem;font-weight:700;
-  background:var(--ink);color:var(--cream);border-radius:999px;padding:4px 12px;
-}
-.artist-card h3{margin:0;}
-.artist-card p{margin:0;font-size:0.92rem;color:#4a4038;}
-.artist-card .btn{align-self:flex-start;margin-top:4px;font-size:0.9rem;padding:10px 18px;}
-
-/* ---------- patrocinadores ---------- */
-.sponsors{background:var(--cream-deep);border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);}
-.sponsors-frame{background:#fff;padding:22px;overflow-x:auto;}
-.sponsors-frame img{min-width:640px;width:100%;height:auto;margin:0 auto;}
-
-/* ---------- creator ---------- */
-.creator{background:var(--blue);color:var(--cream);border-top:3px solid var(--ink);}
-.creator-grid{display:grid;grid-template-columns:0.65fr 1.35fr;gap:52px;align-items:center;}
-.creator-photo-wrap{position:relative;justify-self:center;}
-.creator-photo{
-  width:min(280px,70vw);aspect-ratio:1;border-radius:50%;
-  border:4px solid var(--ink);box-shadow:var(--off) var(--off) 0 var(--ink);
-  background:linear-gradient(160deg,var(--gold),var(--pink));
-  display:flex;align-items:center;justify-content:center;overflow:hidden;
-}
-.creator-photo img{width:100%;height:100%;object-fit:cover;}
-.creator-photo svg{width:38%;height:38%;stroke:var(--ink);opacity:.55;}
-.creator-badge{
-  position:absolute;bottom:6px;right:calc(50% - 130px);
-  background:var(--cream);color:var(--ink);
-  border:2.5px solid var(--ink);border-radius:999px;
-  padding:6px 14px;font-weight:700;font-size:0.8rem;
-  transform:rotate(-4deg);box-shadow:3px 3px 0 var(--ink);
-}
-.creator-copy p{color:#e7eefb;font-size:1.02rem;}
-.creator-quote{
-  margin:20px 0 0;padding:20px 22px;
-  background:rgba(255,255,255,.08);border-left:4px solid var(--gold);
-  border-radius:0 var(--radius-sm) var(--radius-sm) 0;
-  font-family:var(--font-display);font-size:1.15rem;line-height:1.4;
-}
-.creator-quote svg{width:20px;height:20px;margin-bottom:8px;stroke:var(--gold);}
-@media (max-width:880px){
-  .creator-grid{grid-template-columns:1fr;text-align:center;}
-  .creator-badge{right:calc(50% - 120px);}
-}
-
-/* ---------- forum ---------- */
-.forum-grid{display:grid;grid-template-columns:380px 1fr;gap:40px;align-items:start;}
-.forum-form{background:var(--cream);padding:28px;display:flex;flex-direction:column;gap:18px;}
-.form-field{display:flex;flex-direction:column;gap:8px;font-weight:600;font-size:0.92rem;}
-.form-field em{font-weight:400;opacity:.65;font-style:normal;}
-.form-field input[type="text"],
-.form-field textarea{
-  font-family:var(--font-body);font-size:0.98rem;
-  border:2.5px solid var(--ink);border-radius:var(--radius-sm);
-  padding:10px 14px;background:#fff;color:var(--ink);resize:vertical;
-}
-.form-field input[type="text"]:focus,
-.form-field textarea:focus{outline:3px solid var(--gold);outline-offset:1px;}
-.star-input{display:flex;gap:6px;}
-.star-input button{background:none;border:none;padding:2px;cursor:pointer;line-height:0;}
-.star-input button svg{width:28px;height:28px;stroke:var(--ink);fill:none;transition:fill .12s ease, transform .1s ease;}
-.star-input button:hover svg{transform:scale(1.08);}
-.star-input button.is-filled svg{fill:var(--gold);}
-.form-msg{margin:0;font-size:0.85rem;font-weight:600;min-height:1.2em;}
-.form-msg.is-error{color:var(--red);}
-.form-msg.is-ok{color:var(--green-deep);}
-.forum-form .btn{align-self:flex-start;}
-.forum-form .btn[disabled]{opacity:.6;cursor:wait;}
-
-.forum-empty{color:#6b6055;font-style:italic;}
-.review-list{display:flex;flex-direction:column;gap:16px;}
-.review-card{background:var(--cream);padding:18px 20px;display:flex;flex-direction:column;gap:8px;}
-.review-card:nth-child(3n+1){background:var(--pink);}
-.review-card:nth-child(3n+2){background:var(--gold);}
-.review-card:nth-child(3n+3){background:#BFD9F2;}
-.review-card .review-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;}
-.review-card .review-name{font-family:var(--font-display);font-size:1rem;}
-.review-card .review-date{font-size:0.78rem;opacity:.6;}
-.review-card .star-display{display:flex;gap:3px;}
-.review-card .star-display svg{width:16px;height:16px;stroke:var(--ink);fill:none;}
-.review-card .star-display svg.is-filled{fill:var(--gold);}
-.review-card p{margin:0;font-size:0.94rem;color:#332b23;}
-@media (max-width:880px){
-  .forum-grid{grid-template-columns:1fr;}
-}
-
-/* ---------- footer ---------- */
-footer{background:var(--ink);color:var(--cream);padding:44px 0 28px;}
-.footer-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:24px;padding-bottom:26px;border-bottom:1px solid rgba(255,255,255,.15);margin-bottom:20px;}
-.footer-brand{font-family:var(--font-display);font-size:1.2rem;}
-.footer-links{display:flex;gap:22px;flex-wrap:wrap;}
-.footer-links a{text-decoration:none;font-size:0.92rem;opacity:.85;}
-.footer-links a:hover{opacity:1;}
-.footer-bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;font-size:0.82rem;opacity:.75;}
-.footer-tag{font-size:0.72rem;opacity:.5;}
-
-@media (max-width:880px){
-  .nav-links{position:fixed;top:65px;left:0;right:0;background:var(--cream);flex-direction:column;align-items:flex-start;padding:20px 24px;border-bottom:3px solid var(--ink);gap:16px;transform:translateY(-130%);transition:transform .25s ease;}
-  .nav-links.is-open{transform:translateY(0);}
-  .nav-cta{width:100%;}
-  .nav-cta .btn{width:100%;justify-content:center;}
-  .nav-toggle{display:flex;}
-}
-</style>
-</head>
-<body>
-
-<!-- sprite de ícones -->
-<svg style="display:none" aria-hidden="true" xmlns:xlink="http://www.w-card:nth-child(1){background:var(--pink);}
-.value-card:nth-child(2){background:var(--gold);}
-.value-card:nth-child(3){background:#BFD9F2;}
-.value-card .icon-wrap{
-  flex:none;width:42px;height:42px;border-radius:10px;border:2.5px solid var(--ink);
-  background:var(--cream);display:flex;align-items:center;justify-content:center;
-}
-.value-card svg{width:22px;height:22px;}
-.value-card h3{margin:0 0 4px;font-size:1.05rem;}
-.value-card p{margin:0;font-size:0.92rem;color:#332b23;}
-
-@media (max-width:880px){
-  .about-grid{grid-template-columns:1fr;gap:32px;}
-}
-
-/* ---------- números da última edição ---------- */
-.stats{background:var(--ink);color:var(--cream);border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);}
-.stats .section-head p{color:#d8cfc4;}
 .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px;}
 .stat-card{
   background:rgba(255,255,255,.05);border:2.5px solid rgba(255,255,255,.25);
@@ -479,202 +276,7 @@ footer{background:var(--ink);color:var(--cream);padding:44px 0 28px;}
 .stat-card:nth-child(3){border-color:var(--green);}
 .stat-card:nth-child(4){border-color:var(--blue);}
 .stat-card:nth-child(5){border-color:var(--orange);}
-.stat-card .icon-wrap{
-  width:38px;height:38px;border-radius:10px;border:2px solid currentColor;
-  display:flex;align-items:center;justify-content:center;margin-bottom:6px;
-}
-.stat-card svg{width:20px;height:20px;}
-.stat-number{font-family:var(--font-display);font-size:clamp(1.6rem,1.3rem + 1.2vw,2.2rem);line-height:1;}
-.stat-label{font-size:0.92rem;color:#e7ddd0;}
-
-/* ---------- schedule / cronograma ---------- */
-.schedule{background:var(--green);color:var(--cream);border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);}
-.schedule .section-head p{color:#d8ecdf;}
-.schedule-rail{position:relative;padding-left:30px;}
-.schedule-rail::before{
-  content:"";position:absolute;left:9px;top:6px;bottom:6px;width:3px;background:var(--cream);opacity:.35;
-}
-.day-block{position:relative;margin-bottom:36px;}
-.day-block:last-child{margin-bottom:0;}
-.day-dot{
-  position:absolute;left:-30px;top:2px;width:22px;height:22px;border-radius:50%;
-  border:3px solid var(--cream);background:var(--green-deep);
-}
-.day-block[data-day="1"] .day-dot{background:var(--pink);}
-.day-block[data-day="2"] .day-dot{background:var(--gold);}
-.day-block[data-day="3"] .day-dot{background:var(--blue);}
-.day-heading{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:14px;}
-.day-heading h3{margin:0;font-size:1.3rem;}
-.day-date{
-  font-family:var(--font-body);font-weight:700;font-size:0.85rem;
-  background:var(--cream);color:var(--ink);border-radius:999px;padding:4px 12px;
-}
-.day-items{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;}
-.day-item{
-  background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.5);
-  border-radius:var(--radius-sm);padding:14px 16px;
-}
-.day-item .time{display:flex;align-items:center;gap:8px;font-weight:700;font-size:0.9rem;margin-bottom:4px;color:var(--cream);}
-.day-item .time svg{width:16px;height:16px;}
-.day-item p{margin:0;font-size:0.92rem;color:#e7f3ea;}
-
-/* ---------- gallery / drive links ---------- */
-.tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px;}
-.tab-btn{
-  font-family:var(--font-display);font-size:0.95rem;
-  padding:10px 20px;border-radius:999px;border:3px solid var(--ink);
-  background:var(--cream);cursor:pointer;
-}
-.tab-btn.is-active{background:var(--orange);color:var(--cream);}
-.tab-btn[data-day="1"].is-active{background:var(--pink);color:var(--ink);}
-.tab-btn[data-day="2"].is-active{background:var(--gold);color:var(--ink);}
-.tab-btn[data-day="3"].is-active{background:var(--blue);color:var(--cream);}
-
-.day-panel{display:none;}
-.day-panel.is-active{display:block;}
-.artist-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;}
-.artist-card{
-  background:var(--cream);padding:22px;display:flex;flex-direction:column;gap:12px;
-}
-.artist-card .tag{
-  align-self:flex-start;font-size:0.78rem;font-weight:700;
-  background:var(--ink);color:var(--cream);border-radius:999px;padding:4px 12px;
-}
-.artist-card h3{margin:0;}
-.artist-card p{margin:0;font-size:0.92rem;color:#4a4038;}
-.artist-card .btn{align-self:flex-start;margin-top:4px;font-size:0.9rem;padding:10px 18px;}
-
-/* ---------- patrocinadores ---------- */
-.sponsors{background:var(--cream-deep);border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);}
-.sponsors-frame{background:#fff;padding:22px;overflow-x:auto;}
-.sponsors-frame img{min-width:640px;width:100%;height:auto;margin:0 auto;}
-
-/* ---------- creator ---------- */
-.creator{background:var(--blue);color:var(--cream);border-top:3px solid var(--ink);}
-.creator-grid{display:grid;grid-template-columns:0.65fr 1.35fr;gap:52px;align-items:center;}
-.creator-photo-wrap{position:relative;justify-self:center;}
-.creator-photo{
-  width:min(280px,70vw);aspect-ratio:1;border-radius:50%;
-  border:4px solid var(--ink);box-shadow:var(--off) var(--off) 0 var(--ink);
-  background:linear-gradient(160deg,var(--gold),var(--pink));
-  display:flex;align-items:center;justify-content:center;overflow:hidden;
-}
-.creator-photo img{width:100%;height:100%;object-fit:cover;}
-.creator-photo svg{width:38%;height:38%;stroke:var(--ink);opacity:.55;}
-.creator-badge{
-  position:absolute;bottom:6px;right:calc(50% - 130px);
-  background:var(--cream);color:var(--ink);
-  border:2.5px solid var(--ink);border-radius:999px;
-  padding:6px 14px;font-weight:700;font-size:0.8rem;
-  transform:rotate(-4deg);box-shadow:3px 3px 0 var(--ink);
-}
-.creator-copy p{color:#e7eefb;font-size:1.02rem;}
-.creator-quote{
-  margin:20px 0 0;padding:20px 22px;
-  background:rgba(255,255,255,.08);border-left:4px solid var(--gold);
-  border-radius:0 var(--radius-sm) var(--radius-sm) 0;
-  font-family:var(--font-display);font-size:1.15rem;line-height:1.4;
-}
-.creator-quote svg{width:20px;height:20px;margin-bottom:8px;stroke:var(--gold);}
-@media (max-width:880px){
-  .creator-grid{grid-template-columns:1fr;text-align:center;}
-  .creator-badge{right:calc(50% - 120px);}
-}
-
-/* ---------- forum ---------- */
-.forum-grid{display:grid;grid-template-columns:380px 1fr;gap:40px;align-items:start;}
-.forum-form{background:var(--cream);padding:28px;display:flex;flex-direction:column;gap:18px;}
-.form-field{display:flex;flex-direction:column;gap:8px;font-weight:600;font-size:0.92rem;}
-.form-field em{font-weight:400;opacity:.65;font-style:normal;}
-.form-field input[type="text"],
-.form-field textarea{
-  font-family:var(--font-body);font-size:0.98rem;
-  border:2.5px solid var(--ink);border-radius:var(--radius-sm);
-  padding:10px 14px;background:#fff;color:var(--ink);resize:vertical;
-}
-.form-field input[type="text"]:focus,
-.form-field textarea:focus{outline:3px solid var(--gold);outline-offset:1px;}
-.star-input{display:flex;gap:6px;}
-.star-input button{background:none;border:none;padding:2px;cursor:pointer;line-height:0;}
-.star-input button svg{width:28px;height:28px;stroke:var(--ink);fill:none;transition:fill .12s ease, transform .1s ease;}
-.star-input button:hover svg{transform:scale(1.08);}
-.star-input button.is-filled svg{fill:var(--gold);}
-.form-msg{margin:0;font-size:0.85rem;font-weight:600;min-height:1.2em;}
-.form-msg.is-error{color:var(--red);}
-.form-msg.is-ok{color:var(--green-deep);}
-.forum-form .btn{align-self:flex-start;}
-.forum-form .btn[disabled]{opacity:.6;cursor:wait;}
-
-.forum-empty{color:#6b6055;font-style:italic;}
-.review-list{display:flex;flex-direction:column;gap:16px;}
-.review-card{background:var(--cream);padding:18px 20px;display:flex;flex-direction:column;gap:8px;}
-.review-card:nth-child(3n+1){background:var(--pink);}
-.review-card:nth-child(3n+2){background:var(--gold);}
-.review-card:nth-child(3n+3){background:#BFD9F2;}
-.review-card .review-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;}
-.review-card .review-name{font-family:var(--font-display);font-size:1rem;}
-.review-card .review-date{font-size:0.78rem;opacity:.6;}
-.review-card .star-display{display:flex;gap:3px;}
-.review-card .star-display svg{width:16px;height:16px;stroke:var(--ink);fill:none;}
-.review-card .star-display svg.is-filled{fill:var(--gold);}
-.review-card p{margin:0;font-size:0.94rem;color:#332b23;}
-@media (max-width:880px){
-  .forum-grid{grid-template-columns:1fr;}
-}
-
-/* ---------- footer ---------- */
-footer{background:var(--ink);color:var(--cream);padding:44px 0 28px;}
-.footer-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:24px;padding-bottom:26px;border-bottom:1px solid rgba(255,255,255,.15);margin-bottom:20px;}
-.footer-brand{font-family:var(--font-display);font-size:1.2rem;}
-.footer-links{display:flex;gap:22px;flex-wrap:wrap;}
-.footer-links a{text-decoration:none;font-size:0.92rem;opacity:.85;}
-.footer-links a:hover{opacity:1;}
-.footer-bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;font-size:0.82rem;opacity:.75;}
-.footer-tag{font-size:0.72rem;opacity:.5;}
-
-@media (max-width:880px){
-  .nav-links{position:fixed;top:65px;left:0;right:0;background:var(--cream);flex-direction:column;align-items:flex-start;padding:20px 24px;border-bottom:3px solid var(--ink);gap:16px;transform:translateY(-130%);transition:transform .25s ease;}
-  .nav-links.is-open{transform:translateY(0);}
-  .nav-cta{width:100%;}
-  .nav-cta .btn{width:100%;justify-content:center;}
-  .nav-toggle{display:flex;}
-}
-</style>
-</head>
-<body>
-
-<!-- sprite de ícones -->
-<svg style="display:none" aria-hidden="true" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M7 4h10v4a5 5 0 0 1-10 0V4Z"/><path d="M7 5H4a3 3 0 0 0 3 5"/><path d="M17 5h3a3 3 0 0 1-3 5"/><path d="M12 13v3"/><path d="M9 20h6"/><path d="M10 16.5h4l.6 3.5H9.4l.6-3.5Z"/></symbol>
-  <symbol id="i-mic" viewBox="0 0 24 24"><rect x="-card:nth-child(1){background:var(--pink);}
-.value-card:nth-child(2){background:var(--gold);}
-.value-card:nth-child(3){background:#BFD9F2;}
-.value-card .icon-wrap{
-  flex:none;width:42px;height:42px;border-radius:10px;border:2.5px solid var(--ink);
-  background:var(--cream);display:flex;align-items:center;justify-content:center;
-}
-.value-card svg{width:22px;height:22px;}
-.value-card h3{margin:0 0 4px;font-size:1.05rem;}
-.value-card p{margin:0;font-size:0.92rem;color:#332b23;}
-
-@media (max-width:880px){
-  .about-grid{grid-template-columns:1fr;gap:32px;}
-}
-
-/* ---------- números da última edição ---------- */
-.stats{background:var(--ink);color:var(--cream);border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);}
-.stats .section-head p{color:#d8cfc4;}
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px;}
-.stat-card{
-  background:rgba(255,255,255,.05);border:2.5px solid rgba(255,255,255,.25);
-  border-radius:var(--radius-sm);padding:22px 20px;
-  display:flex;flex-direction:column;gap:6px;align-items:flex-start;
-}
-.stat-card:nth-child(1){border-color:var(--pink);}
-.stat-card:nth-child(2){border-color:var(--gold);}
-.stat-card:nth-child(3){border-color:var(--green);}
-.stat-card:nth-child(4){border-color:var(--blue);}
-.stat-card:nth-child(5){border-color:var(--orange);}
+.stat-card:nth-child(6){border-color:var(--pink);}
 .stat-card .icon-wrap{
   width:38px;height:38px;border-radius:10px;border:2px solid currentColor;
   display:flex;align-items:center;justify-content:center;margin-bottom:6px;
@@ -852,189 +454,6 @@ footer{background:var(--ink);color:var(--cream);padding:44px 0 28px;}
 .footer-tag{font-size:0.72rem;opacity:.5;}
 
 @media (max-width:880px){
-  .nav-links{position:fixed;top:65px;left:0;right:0;ba-card:nth-child(1){background:var(--pink);}
-.value-card:nth-child(2){background:var(--gold);}
-.value-card:nth-child(3){background:#BFD9F2;}
-.value-card .icon-wrap{
-  flex:none;width:42px;height:42px;border-radius:10px;border:2.5px solid var(--ink);
-  background:var(--cream);display:flex;align-items:center;justify-content:center;
-}
-.value-card svg{width:22px;height:22px;}
-.value-card h3{margin:0 0 4px;font-size:1.05rem;}
-.value-card p{margin:0;font-size:0.92rem;color:#332b23;}
-
-@media (max-width:880px){
-  .about-grid{grid-template-columns:1fr;gap:32px;}
-}
-
-/* ---------- números da última edição ---------- */
-.stats{background:var(--ink);color:var(--cream);border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);}
-.stats .section-head p{color:#d8cfc4;}
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px;}
-.stat-card{
-  background:rgba(255,255,255,.05);border:2.5px solid rgba(255,255,255,.25);
-  border-radius:var(--radius-sm);padding:22px 20px;
-  display:flex;flex-direction:column;gap:6px;align-items:flex-start;
-}
-.stat-card:nth-child(1){border-color:var(--pink);}
-.stat-card:nth-child(2){border-color:var(--gold);}
-.stat-card:nth-child(3){border-color:var(--green);}
-.stat-card:nth-child(4){border-color:var(--blue);}
-.stat-card:nth-child(5){border-color:var(--orange);}
-.stat-card .icon-wrap{
-  width:38px;height:38px;border-radius:10px;border:2px solid currentColor;
-  display:flex;align-items:center;justify-content:center;margin-bottom:6px;
-}
-.stat-card svg{width:20px;height:20px;}
-.stat-number{font-family:var(--font-display);font-size:clamp(1.6rem,1.3rem + 1.2vw,2.2rem);line-height:1;}
-.stat-label{font-size:0.92rem;color:#e7ddd0;}
-
-/* ---------- schedule / cronograma ---------- */
-.schedule{background:var(--green);color:var(--cream);border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);}
-.schedule .section-head p{color:#d8ecdf;}
-.schedule-rail{position:relative;padding-left:30px;}
-.schedule-rail::before{
-  content:"";position:absolute;left:9px;top:6px;bottom:6px;width:3px;background:var(--cream);opacity:.35;
-}
-.day-block{position:relative;margin-bottom:36px;}
-.day-block:last-child{margin-bottom:0;}
-.day-dot{
-  position:absolute;left:-30px;top:2px;width:22px;height:22px;border-radius:50%;
-  border:3px solid var(--cream);background:var(--green-deep);
-}
-.day-block[data-day="1"] .day-dot{background:var(--pink);}
-.day-block[data-day="2"] .day-dot{background:var(--gold);}
-.day-block[data-day="3"] .day-dot{background:var(--blue);}
-.day-heading{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:14px;}
-.day-heading h3{margin:0;font-size:1.3rem;}
-.day-date{
-  font-family:var(--font-body);font-weight:700;font-size:0.85rem;
-  background:var(--cream);color:var(--ink);border-radius:999px;padding:4px 12px;
-}
-.day-items{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;}
-.day-item{
-  background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.5);
-  border-radius:var(--radius-sm);padding:14px 16px;
-}
-.day-item .time{display:flex;align-items:center;gap:8px;font-weight:700;font-size:0.9rem;margin-bottom:4px;color:var(--cream);}
-.day-item .time svg{width:16px;height:16px;}
-.day-item p{margin:0;font-size:0.92rem;color:#e7f3ea;}
-
-/* ---------- gallery / drive links ---------- */
-.tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px;}
-.tab-btn{
-  font-family:var(--font-display);font-size:0.95rem;
-  padding:10px 20px;border-radius:999px;border:3px solid var(--ink);
-  background:var(--cream);cursor:pointer;
-}
-.tab-btn.is-active{background:var(--orange);color:var(--cream);}
-.tab-btn[data-day="1"].is-active{background:var(--pink);color:var(--ink);}
-.tab-btn[data-day="2"].is-active{background:var(--gold);color:var(--ink);}
-.tab-btn[data-day="3"].is-active{background:var(--blue);color:var(--cream);}
-
-.day-panel{display:none;}
-.day-panel.is-active{display:block;}
-.artist-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;}
-.artist-card{
-  background:var(--cream);padding:22px;display:flex;flex-direction:column;gap:12px;
-}
-.artist-card .tag{
-  align-self:flex-start;font-size:0.78rem;font-weight:700;
-  background:var(--ink);color:var(--cream);border-radius:999px;padding:4px 12px;
-}
-.artist-card h3{margin:0;}
-.artist-card p{margin:0;font-size:0.92rem;color:#4a4038;}
-.artist-card .btn{align-self:flex-start;margin-top:4px;font-size:0.9rem;padding:10px 18px;}
-
-/* ---------- patrocinadores ---------- */
-.sponsors{background:var(--cream-deep);border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);}
-.sponsors-frame{background:#fff;padding:22px;overflow-x:auto;}
-.sponsors-frame img{min-width:640px;width:100%;height:auto;margin:0 auto;}
-
-/* ---------- creator ---------- */
-.creator{background:var(--blue);color:var(--cream);border-top:3px solid var(--ink);}
-.creator-grid{display:grid;grid-template-columns:0.65fr 1.35fr;gap:52px;align-items:center;}
-.creator-photo-wrap{position:relative;justify-self:center;}
-.creator-photo{
-  width:min(280px,70vw);aspect-ratio:1;border-radius:50%;
-  border:4px solid var(--ink);box-shadow:var(--off) var(--off) 0 var(--ink);
-  background:linear-gradient(160deg,var(--gold),var(--pink));
-  display:flex;align-items:center;justify-content:center;overflow:hidden;
-}
-.creator-photo img{width:100%;height:100%;object-fit:cover;}
-.creator-photo svg{width:38%;height:38%;stroke:var(--ink);opacity:.55;}
-.creator-badge{
-  position:absolute;bottom:6px;right:calc(50% - 130px);
-  background:var(--cream);color:var(--ink);
-  border:2.5px solid var(--ink);border-radius:999px;
-  padding:6px 14px;font-weight:700;font-size:0.8rem;
-  transform:rotate(-4deg);box-shadow:3px 3px 0 var(--ink);
-}
-.creator-copy p{color:#e7eefb;font-size:1.02rem;}
-.creator-quote{
-  margin:20px 0 0;padding:20px 22px;
-  background:rgba(255,255,255,.08);border-left:4px solid var(--gold);
-  border-radius:0 var(--radius-sm) var(--radius-sm) 0;
-  font-family:var(--font-display);font-size:1.15rem;line-height:1.4;
-}
-.creator-quote svg{width:20px;height:20px;margin-bottom:8px;stroke:var(--gold);}
-@media (max-width:880px){
-  .creator-grid{grid-template-columns:1fr;text-align:center;}
-  .creator-badge{right:calc(50% - 120px);}
-}
-
-/* ---------- forum ---------- */
-.forum-grid{display:grid;grid-template-columns:380px 1fr;gap:40px;align-items:start;}
-.forum-form{background:var(--cream);padding:28px;display:flex;flex-direction:column;gap:18px;}
-.form-field{display:flex;flex-direction:column;gap:8px;font-weight:600;font-size:0.92rem;}
-.form-field em{font-weight:400;opacity:.65;font-style:normal;}
-.form-field input[type="text"],
-.form-field textarea{
-  font-family:var(--font-body);font-size:0.98rem;
-  border:2.5px solid var(--ink);border-radius:var(--radius-sm);
-  padding:10px 14px;background:#fff;color:var(--ink);resize:vertical;
-}
-.form-field input[type="text"]:focus,
-.form-field textarea:focus{outline:3px solid var(--gold);outline-offset:1px;}
-.star-input{display:flex;gap:6px;}
-.star-input button{background:none;border:none;padding:2px;cursor:pointer;line-height:0;}
-.star-input button svg{width:28px;height:28px;stroke:var(--ink);fill:none;transition:fill .12s ease, transform .1s ease;}
-.star-input button:hover svg{transform:scale(1.08);}
-.star-input button.is-filled svg{fill:var(--gold);}
-.form-msg{margin:0;font-size:0.85rem;font-weight:600;min-height:1.2em;}
-.form-msg.is-error{color:var(--red);}
-.form-msg.is-ok{color:var(--green-deep);}
-.forum-form .btn{align-self:flex-start;}
-.forum-form .btn[disabled]{opacity:.6;cursor:wait;}
-
-.forum-empty{color:#6b6055;font-style:italic;}
-.review-list{display:flex;flex-direction:column;gap:16px;}
-.review-card{background:var(--cream);padding:18px 20px;display:flex;flex-direction:column;gap:8px;}
-.review-card:nth-child(3n+1){background:var(--pink);}
-.review-card:nth-child(3n+2){background:var(--gold);}
-.review-card:nth-child(3n+3){background:#BFD9F2;}
-.review-card .review-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;}
-.review-card .review-name{font-family:var(--font-display);font-size:1rem;}
-.review-card .review-date{font-size:0.78rem;opacity:.6;}
-.review-card .star-display{display:flex;gap:3px;}
-.review-card .star-display svg{width:16px;height:16px;stroke:var(--ink);fill:none;}
-.review-card .star-display svg.is-filled{fill:var(--gold);}
-.review-card p{margin:0;font-size:0.94rem;color:#332b23;}
-@media (max-width:880px){
-  .forum-grid{grid-template-columns:1fr;}
-}
-
-/* ---------- footer ---------- */
-footer{background:var(--ink);color:var(--cream);padding:44px 0 28px;}
-.footer-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:24px;padding-bottom:26px;border-bottom:1px solid rgba(255,255,255,.15);margin-bottom:20px;}
-.footer-brand{font-family:var(--font-display);font-size:1.2rem;}
-.footer-links{display:flex;gap:22px;flex-wrap:wrap;}
-.footer-links a{text-decoration:none;font-size:0.92rem;opacity:.85;}
-.footer-links a:hover{opacity:1;}
-.footer-bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;font-size:0.82rem;opacity:.75;}
-.footer-tag{font-size:0.72rem;opacity:.5;}
-
-@media (max-width:880px){
   .nav-links{position:fixed;top:65px;left:0;right:0;background:var(--cream);flex-direction:column;align-items:flex-start;padding:20px 24px;border-bottom:3px solid var(--ink);gap:16px;transform:translateY(-130%);transition:transform .25s ease;}
   .nav-links.is-open{transform:translateY(0);}
   .nav-cta{width:100%;}
@@ -1113,33 +532,28 @@ footer{background:var(--ink);color:var(--cream);padding:44px 0 28px;}
       <div class="carousel-frame">
         <div class="carousel-track" id="carouselTrack">
 
-          <!-- EDITAR: foto do carrossel 1 — troque o bloco .slide-fallback por <img src="foto1.jpg" alt="..."> -->
           <div class="slide">
-            <img src="images/GGZONIA-36.jpg" alt="Arena de Torneios">   
+            <img src="images/GGZONIA-36.jpg" alt="Arena de Torneios">
             <p class="slide-cap">Arena de Torneios — disputas de e-sports ao vivo</p>
           </div>
 
-          <!-- EDITAR: foto do carrossel 2 -->
           <div class="slide">
             <img src="images/GGZONIA-343.jpg" alt="Palco Principal">
             <p class="slide-cap">Palco Principal — shows e apresentações</p>
           </div>
 
-          <!-- EDITAR: foto do carrossel 3 -->
           <div class="slide">
             <img src="images/Foto-318.jpg" alt="Feira Geek">
             <p class="slide-cap">Feira Geek — artesanato e colecionáveis</p>
           </div>
 
-          <!-- EDITAR: foto do carrossel 4 -->
           <div class="slide">
             <img src="images/Foto-26.jpg" alt="Concurso de Cosplay">
             <p class="slide-cap">Concurso de Cosplay — o público escolhe o campeão</p>
           </div>
 
-          <!-- EDITAR: foto do carrossel 5 -->
           <div class="slide">
-            <img src="images/Foto-252.jpg" alt="Palco Principal">
+            <img src="images/Foto-252.jpg" alt="Comunidade">
             <p class="slide-cap">Comunidade — a galera geek reunida</p>
           </div>
 
@@ -1158,19 +572,13 @@ footer{background:var(--ink);color:var(--cream);padding:44px 0 28px;}
       <div class="section-head" style="margin-bottom:20px;">
         <h2>Sobre o GamerGeekZonia</h2>
       </div>
-      <p>O Geekzonia nunca foi apenas sobre games, tecnologia ou cultura geek. Ele nasceu para conectar pessoas, aproximar universos e mostrar que, quando diferentes TRIBOS se unem, algo muito maior acontece.
-
+      <p>O Geekzonia nunca foi apenas sobre games, tecnologia ou cultura geek. Ele nasceu para conectar pessoas, aproximar universos e mostrar que, quando diferentes TRIBOS se unem, algo muito maior acontece.</p>
       <p>Tenho muito orgulho de tudo que construímos juntos, mas principalmente de saber que esse evento só foi possível porque cada coletivo, grupo, comunidade, artista, criador e parceiro decidiu estar presente e fazer parte dessa história.</p>
-
       <p>A cada coletivo que esteve conosco: muito obrigado! Vocês não foram apenas participantes. Vocês foram parte essencial do sucesso do Geekzonia. Cada atividade, cada encontro, cada conversa e cada sorriso ajudou a transformar o evento em um espaço de pertencimento e união.</p>
-      
       <p>Aprendi que grandes projetos não são construídos por uma única pessoa. São construídos quando conseguimos fazer as pessoas perceberem que elas também são protagonistas.</p>
-
       <p>E é exatamente isso que queremos continuar fazendo: conectar comunidades, valorizar talentos e criar conexões entre diferentes universos.</p>
-         
       <p>Porque, no final, não importa de qual universo você veio.</p>
-
-      <p>Todos os universos, uma só comunidade. GAMER GEEKZÔNIA</p></p>
+      <p>Todos os universos, uma só comunidade. GAMER GEEKZÔNIA</p>
     </div>
     <div class="value-stack">
       <div class="value-card">
@@ -1195,7 +603,6 @@ footer{background:var(--ink);color:var(--cream);padding:44px 0 28px;}
       <h2>A última edição em números</h2>
       <p>Um raio-x do que o GamerGeekZonia movimentou na edição mais recente.</p>
     </div>
-    <!-- EDITAR: troque os valores [NÚMERO] pelos números reais da última edição -->
     <div class="stats-grid">
       <div class="stat-card">
         <div class="icon-wrap"><svg><use href="#i-users" xlink:href="#i-users"/></svg></div>
@@ -1221,12 +628,12 @@ footer{background:var(--ink);color:var(--cream);padding:44px 0 28px;}
         <div class="icon-wrap"><svg><use href="#i-trophy" xlink:href="#i-trophy"/></svg></div>
         <span class="stat-number">+115 EMPREENDEDORES</span>
         <span class="stat-label">envolvidos</span>
-     </div>
-     <div class="stat-card">
+      </div>
+      <div class="stat-card">
         <div class="icon-wrap"><svg><use href="#i-trophy" xlink:href="#i-trophy"/></svg></div>
         <span class="stat-number">APROX. 12 TONELADAS</span>
         <span class="stat-label">de alimentos arrecadados</span>
-     </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1290,7 +697,6 @@ footer{background:var(--ink);color:var(--cream);padding:44px 0 28px;}
           <span class="tag">Dia 01</span>
           <h3>Registros Oficiais</h3>
           <p>Fotos Gerais do Primeiro Dia</p>
-          <!-- EDITAR: cole o link da pasta do Drive no href -->
           <a href="https://drive.google.com/drive/folders/1dOhAs-6zYixrGS9TiYKxsDKFvHm5Riqm" class="btn btn-green" data-drive="https://drive.google.com/drive/folders/1dOhAs-6zYixrGS9TiYKxsDKFvHm5Riqm"><svg class="icon"><use href="#i-drive" xlink:href="#i-drive"/></svg> Abrir pasta no Drive</a>
         </div>
         <div class="artist-card">
@@ -1324,6 +730,7 @@ footer{background:var(--ink);color:var(--cream);padding:44px 0 28px;}
         </div>
       </div>
     </div>
+  </div>
 </section>
 
 <section class="sponsors section-pad" id="patrocinadores">
@@ -1332,8 +739,35 @@ footer{background:var(--ink);color:var(--cream);padding:44px 0 28px;}
       <h2>Quem apoiou a última edição</h2>
       <p>Realização, parceiros oficiais, ESG, mídia partners e apoiadores do GamerGeekZonia.</p>
     </div>
-    <div class="sponsors-frame sticker">
-      <img src="images/patrocinadores.webp" alt="Logos dos patrocinadores e parceiros do GamerGeekZonia: Sete on Hub, Instituto Headscon, Anime Jungle Party, Doritos, Cheetos, Evereste, Grupo Rede Amazônica e Ministério da Integração e do Desenvolvimento Regional">
+  </div>
+
+  <!--
+    EDITAR: troque o src de cada logo abaixo pela imagem real do patrocinador
+    (coloque os arquivos direto dentro de images/, sem subpasta).
+    Este bloco de 8 logos se repete DUAS VEZES de propósito — é o que faz
+    o carrossel parecer infinito, sem "pulo" quando ele reinicia.
+    Se adicionar/remover um patrocinador, edite os DOIS blocos igualmente.
+  -->
+  <div class="sponsor-marquee">
+    <div class="sponsor-track">
+      <!-- bloco 1 -->
+      <img class="sponsor-logo" src="images/sponsor-01-l7hub.png" alt="L7 Hub">
+      <img class="sponsor-logo" src="images/sponsor-02-headscon.png" alt="Instituto Headscon">
+      <img class="sponsor-logo" src="images/sponsor-03-animejungleparty.png" alt="Anime Jungle Party">
+      <img class="sponsor-logo" src="images/sponsor-04-doritos.png" alt="Doritos">
+      <img class="sponsor-logo" src="images/sponsor-05-cheetos.png" alt="Cheetos">
+      <img class="sponsor-logo" src="images/sponsor-06-evereste.png" alt="Evereste">
+      <img class="sponsor-logo" src="images/sponsor-07-redeamazonica.png" alt="Grupo Rede Amazônica">
+      <img class="sponsor-logo" src="images/sponsor-08-ministerio.png" alt="Ministério da Integração e do Desenvolvimento Regional">
+      <!-- bloco 2 (cópia idêntica, decorativa — não apagar) -->
+      <img class="sponsor-logo" src="images/sponsor-01-l7hub.png" alt="" aria-hidden="true">
+      <img class="sponsor-logo" src="images/sponsor-02-headscon.png" alt="" aria-hidden="true">
+      <img class="sponsor-logo" src="images/sponsor-03-animejungleparty.png" alt="" aria-hidden="true">
+      <img class="sponsor-logo" src="images/sponsor-04-doritos.png" alt="" aria-hidden="true">
+      <img class="sponsor-logo" src="images/sponsor-05-cheetos.png" alt="" aria-hidden="true">
+      <img class="sponsor-logo" src="images/sponsor-06-evereste.png" alt="" aria-hidden="true">
+      <img class="sponsor-logo" src="images/sponsor-07-redeamazonica.png" alt="" aria-hidden="true">
+      <img class="sponsor-logo" src="images/sponsor-08-ministerio.png" alt="" aria-hidden="true">
     </div>
   </div>
 </section>
@@ -1350,7 +784,7 @@ footer{background:var(--ink);color:var(--cream);padding:44px 0 28px;}
       <div class="section-head" style="margin-bottom:16px;">
         <h2>Quem criou o GamerGeekZonia</h2>
       </div>
-      <p><strong>Leo Andrade</strong> CEO da L7 Hub, é o idealizador do GamerGeekZonia. O evento é a continuidade de um trabalho que ele já vinha construindo desde 2018 à frente do Amazon Tecnogame, e nasceu com a proposta de descentralizar os eventos geek de Manaus, reunindo games, cultura pop, cultura urbana e nerd num só lugar.</p>
+      <p><strong>Leo Andrade</strong>, CEO da L7 Hub, é o idealizador do GamerGeekZonia. O evento é a continuidade de um trabalho que ele já vinha construindo desde 2018 à frente do Amazon Tecnogame, e nasceu com a proposta de descentralizar os eventos geek de Manaus, reunindo games, cultura pop, cultura urbana e nerd num só lugar.</p>
       <p>Um dos diferenciais da sua forma de organizar é ouvir a própria comunidade: as atrações são escolhidas a partir do que o público pede nas redes sociais. Pra Léo, valorizar coletivos como grupos de cosplay, K-pop e e-sports é o que mantém a cena geek viva o ano inteiro.</p>
       <blockquote class="creator-quote">
         <svg><use href="#i-quote" xlink:href="#i-quote"/></svg>
@@ -1420,6 +854,7 @@ footer{background:var(--ink);color:var(--cream);padding:44px 0 28px;}
     </div>
     <div class="footer-bottom">
       <span>© 2026 GamerGeekZonia. Todos os direitos reservados a Alexsander Victor e Alejandro Pinheiro.</span>
+      <span class="footer-tag">v1.1 — protótipo em evolução</span>
     </div>
   </div>
 </footer>
