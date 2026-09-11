@@ -73,7 +73,7 @@
 }
 
 *,*::before,*::after{box-sizing:border-box;}
-html{scroll-behavior:smooth;}
+html{scroll-behavior:smooth;overflow-x:hidden;}
 body{
   margin:0;
   background:var(--cream);
@@ -81,6 +81,8 @@ body{
   font-family:var(--font-body);
   line-height:1.6;
   -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  width:100%;
 }
 img{max-width:100%;display:block;}
 a{color:inherit;}
@@ -270,6 +272,7 @@ p{margin:0 0 14px;}
   background:rgba(255,255,255,.05);border:2.5px solid rgba(255,255,255,.25);
   border-radius:var(--radius-sm);padding:22px 20px;
   display:flex;flex-direction:column;gap:6px;align-items:flex-start;
+  min-width:0;
 }
 .stat-card:nth-child(1){border-color:var(--pink);}
 .stat-card:nth-child(2){border-color:var(--gold);}
@@ -282,8 +285,11 @@ p{margin:0 0 14px;}
   display:flex;align-items:center;justify-content:center;margin-bottom:6px;
 }
 .stat-card svg{width:20px;height:20px;}
-.stat-number{font-family:var(--font-display);font-size:clamp(1.6rem,1.3rem + 1.2vw,2.2rem);line-height:1;}
-.stat-label{font-size:0.92rem;color:#e7ddd0;}
+.stat-number{
+  font-family:var(--font-display);font-size:clamp(1.3rem,1rem + 1.4vw,2.2rem);line-height:1.15;
+  overflow-wrap:break-word;word-break:break-word;hyphens:auto;max-width:100%;
+}
+.stat-label{font-size:0.92rem;color:#e7ddd0;overflow-wrap:break-word;word-break:break-word;}
 
 /* ---------- schedule / cronograma ---------- */
 .schedule{background:var(--green);color:var(--cream);border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);}
