@@ -267,7 +267,13 @@ p{margin:0 0 14px;}
 /* ---------- números da última edição ---------- */
 .stats{background:var(--ink);color:var(--cream);border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);}
 .stats .section-head p{color:#d8cfc4;}
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px;}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+@media (max-width:720px){
+  .stats-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media (max-width:460px){
+  .stats-grid{grid-template-columns:1fr;}
+}
 .stat-card{
   background:rgba(255,255,255,.05);border:2.5px solid rgba(255,255,255,.25);
   border-radius:var(--radius-sm);padding:22px 20px;
